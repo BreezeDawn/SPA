@@ -76,3 +76,26 @@ def post_array():
     logger.info(result)
 
     return jsonify(result)
+
+
+@data_blue.route('/data/get_db_two', methods=['GET'])
+def get_db_two():
+    data_two = None
+
+    try:
+        data_two = data_sql.get_db_two()
+
+    except BaseException as e:
+        logger.exception(e)
+
+        result = dict(code=RET.SERVERERR, message=error_map[RET.SERVERERR], data=data_two)
+
+        logger.info(result)
+
+        return jsonify(result)
+
+    result = dict(code=RET.OK, message=error_map[RET.OK], data=data_two)
+
+    logger.info(result)
+
+    return jsonify(result)

@@ -54,3 +54,19 @@ class DataSql:
             self.db.session.rollback()
 
             logger.warning(e)
+
+    def get_db_two(self):
+        data = None
+
+        try:
+            data = models.DataTwo.query.limit(100).all()
+
+            data = [item.data for item in data]
+
+        except Exception as e:
+
+            self.db.session.rollback()
+
+            logger.warning(e)
+
+        return data
