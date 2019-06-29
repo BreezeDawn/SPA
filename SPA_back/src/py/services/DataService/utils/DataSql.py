@@ -31,3 +31,26 @@ class DataSql:
             self.db.session.rollback()
 
             logger.warning(e)
+
+    def add_array_to_db_two(self, array):
+        try:
+            for item in array:
+                self.add_item_to_db_two(item)
+        except BaseException as e:
+            logger.exception(e)
+            return False
+
+        return True
+
+    def add_item_to_db_two(self, item):
+        # noinspection PyBroadException
+        try:
+            data_obj = models.DataTwo(data=item)
+
+            self.db.session.add(data_obj)
+
+        except Exception as e:
+
+            self.db.session.rollback()
+
+            logger.warning(e)
