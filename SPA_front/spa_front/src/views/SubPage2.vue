@@ -1,35 +1,85 @@
 <template>
-  <div class="sub_page2">
-    <h1>This is an about page</h1>
+  <div id='sub_page1'>
+    <div id="chart"></div>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 import config from '@/../config/config.ts';
+import HighCharts from 'highcharts';
 
-@Component({
-  components: {
-    HelloWorld,
-  },
-})
-export default class SubPage1 extends Vue {
-  private data = [];
+export default class SubPage2 extends Vue {
+  private option = {
+    title: {
+      text: 'SubPage 2 Data',
+    },
+    subtitle: {
+      text: '数据来源：127.0.0.1:7777',
+    },
+    yAxis: {
+      title: {
+        text: '数值',
+      },
+    },
+    legend: {
+      layout: 'vertical',
+      align: 'right',
+      verticalAlign: 'middle',
+    },
+    plotOptions: {
+      series: {
+        label: {
+          connectorAllowed: false,
+        },
+        pointStart: 1,
+      },
+    },
+    series: [{
+      name: '数位',
+      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+    }],
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 500,
+        },
+        chartOptions: {
+          legend: {
+            layout: 'horizontal',
+            align: 'center',
+            verticalAlign: 'bottom',
+          },
+        },
+      }],
+    },
+  };
 
-  private get_data_2() {
+  private mounted() {
+    this.init_charts(this.option);
+  }
+
+  private get_db_two() {
     this.$axios({
       method: 'get',
       url: config.baseURL + '/data/get_db_two',
     }).then((res) => {
       if (res.data.code === '200') {
-        this.data = res.data.data;
-        console.log(this.data);
+        console.log(res.data.data);
       }
     });
   }
 
-  private mounted() {
-    this.get_data_2();
+  private init_charts(option: any) {
+    HighCharts.chart('chart', option);
   }
 }
 </script>
