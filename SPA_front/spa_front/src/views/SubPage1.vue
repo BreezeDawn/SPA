@@ -1,13 +1,11 @@
 <template>
-  <div class="sub_page1">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-    <el-button @click="post_data_2">存储当前数据</el-button>
-
+  <div class='sub_page1'>
+    <HelloWorld style="width:80%;margin:auto;margin-top:2rem" :nowArray='data' />
+    <el-button  type="primary" plain @click='post_data_2' style="margin-top:3rem">存储当前数据</el-button>
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 import config from '@/../config/config.ts';
@@ -18,7 +16,7 @@ import config from '@/../config/config.ts';
   },
 })
 export default class SubPage1 extends Vue {
-  private data = [];
+  private data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
   private timer: any;
   private get_data_1() {
     this.$axios({
@@ -27,7 +25,6 @@ export default class SubPage1 extends Vue {
     }).then((res) => {
       if (res.data.code === '200') {
         this.data = res.data.data;
-        console.log(this.data);
       }
     });
   }
@@ -39,14 +36,16 @@ export default class SubPage1 extends Vue {
       data: {
         array: JSON.stringify(this.data),
       },
-    }).then((res) => {return; });
+    }).then((res) => {
+      return;
+    });
   }
 
   private mounted() {
     this.get_data_1();
     this.timer = setInterval(this.get_data_1, 10000);
   }
-  private beforeDestroy() {
+  private destory() {
     clearInterval(this.timer);
   }
 }
