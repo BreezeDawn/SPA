@@ -5,9 +5,11 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import config from '@/../config/config.ts';
+import axios from 'axios';
+import config from '@/../config/config';
 import HighCharts from 'highcharts';
 
+@Component
 export default class SubPage2 extends Vue {
   private option = {
     title: {
@@ -35,7 +37,7 @@ export default class SubPage2 extends Vue {
       },
     },
     series: [{
-      name: '数位',
+      name: '数值',
       data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
               0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
               0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -64,16 +66,17 @@ export default class SubPage2 extends Vue {
   };
 
   private mounted() {
-    this.init_charts(this.option);
+    this.get_db_two();
   }
 
   private get_db_two() {
-    this.$axios({
+    axios({
       method: 'get',
       url: config.baseURL + '/data/get_db_two',
-    }).then((res) => {
+    }).then((res: any) => {
       if (res.data.code === '200') {
-        console.log(res.data.data);
+        this.option.series[0].data = res.data.data;
+        this.init_charts(this.option);
       }
     });
   }

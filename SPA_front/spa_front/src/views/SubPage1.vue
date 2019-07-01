@@ -7,6 +7,7 @@
 
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator';
+import axios from 'axios';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 import config from '@/../config/config.ts';
 
@@ -19,10 +20,10 @@ export default class SubPage1 extends Vue {
   private data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
   private timer: any;
   private get_data_1() {
-    this.$axios({
+    axios({
       method: 'get',
       url: config.baseURL + '/data/get_array',
-    }).then((res) => {
+    }).then((res: any) => {
       if (res.data.code === '200') {
         this.data = res.data.data;
       }
@@ -30,13 +31,14 @@ export default class SubPage1 extends Vue {
   }
 
   private post_data_2() {
-    this.$axios({
+    axios({
       method: 'post',
       url: config.baseURL + '/data/post_array',
       data: {
         array: JSON.stringify(this.data),
       },
-    }).then((res) => {
+    }).then((res: any) => {
+      this.$message.success('存储成功');
       return;
     });
   }
