@@ -36,7 +36,7 @@ def create_app(config_type):
     def page_not_found(e):
         return jsonify({"code": "404", "message": str(e)})
 
-    CSRFProtect(app)
+    # CSRFProtect(app)
     CORS(app, supports_credentials=True)
 
     from SPA_back.src.py.services.DataService import models
